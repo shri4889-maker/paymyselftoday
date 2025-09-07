@@ -1,0 +1,39 @@
+# 💰 PayMyselfToday
+
+> Instant Take-Home Pay Calculator for Freelancers & Small Biz Owners
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
+🔗 **Live Demo**: https://paymyselftoday.com (coming soon!)
+
+---
+
+## 🚀 What It Does
+
+Tired of digging through QuickBooks or guessing your take-home pay?
+
+**PayMyselfToday** gives you an instant estimate of how much you can safely transfer to your personal account — after federal, state, and self-employment taxes.
+
+Just enter:
+- Your monthly business income
+- Your monthly business expenses
+- Your state
+
+→ Get your net take-home pay in seconds.
+
+---
+
+## ✅ Features
+
+- No login or signup
+- Works 100% in-browser (no server, no tracking)
+- Mobile & desktop friendly
+- Open-source & free to use
+
+---
+
+## 📥 How to Use Locally
+
+1. **Clone this repo:**
+   ```bash
+   git clone https://github.com/yourusername/paymyselftoday.git
