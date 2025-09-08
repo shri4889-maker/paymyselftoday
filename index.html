@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PayMyself.Today — Take-Home Pay Calculator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .glow-button {
+      box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+      transition: all 0.3s ease;
+    }
+    .glow-button:hover {
+      box-shadow: 0 0 25px rgba(59, 130, 246, 0.8);
+      transform: scale(1.02);
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen flex flex-col items-center p-4">
+
+  <!-- HEADER -->
+  <div class="text-center mt-10 max-w-3xl">
+    <h1 class="text-4xl font-extrabold text-gray-800">💰 PayMyself.Today</h1>
+    <p class="text-lg text-gray-600 mt-2">How much can you <em>really</em> pay yourself this month?<br>Find out in 10 seconds — no login.</p>
+  </div>
+
+  <!-- CALCULATOR -->
+  <div id="calculator" class="bg-white p-8 rounded-2xl shadow-xl mt-10 w-full max-w-md">
+    <h2 class="text-xl font-bold mb-4 text-gray-800">Let’s calculate your take-home pay</h2>
+
+    <!-- Business Type -->
+    <div class="mb-4">
+      <label class="block text-gray-700 font-medium mb-2">1. Your business type:</label>
+      <select id="businessType" class="w-full p-3 border border-gray-300 rounded-lg">
+        <option value="soleprop">Sole Proprietor / Freelancer</option>
+        <option value="llc">Single-Member LLC</option>
+        <option value="scorp">S-Corp (Owner Salary)</option>
+        <option value="notsure">I’m not sure (default: Sole Prop)</option>
+      </select>
+    </div>
+
+    <!-- Income -->
+    <div class="mb-4">
+      <label class="block text-gray-700 font-medium mb-2">2. Business Income This Month ($)</label>
+      <input type="number" id="income" placeholder="e.g. 5000" class="w-full p-3 border border-gray-300 rounded-lg">
+    </div>
+
+    <!-- Expenses -->
+    <div class="mb-4">
+      <label class="block text-gray-700 font-medium mb-2">3. Business Expenses This Month ($)</label>
+      <input type="number" id="expenses" placeholder="e.g. 1200" class="w-full p-3 border border-gray-300 rounded-lg">
+    </div>
+
+    <!-- State -->
+    <div class="mb-6">
+      <label class="block text-gray-700 font-medium mb-2">4. Your State</label>
+      <select id="state" class="w-full p-3 border border-gray-300 rounded-lg">
+        <option value="CA">California</option>
+        <option value="TX">Texas</option>
+        <option value="NY">New York</option>
+        <option value="FL">Florida</option>
+        <option value="WA">Washington</option>
+        <option value="NV">Nevada</option>
+        <option value="other">Not in US / No State Tax</option>
+        <!-- Add more states as needed -->
+      </select>
+    </div>
+
+    <!-- BUTTON -->
+    <button onclick="calculateTakeHome()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-lg glow-button transition-all">
+      🔥 Calculate My Take-Home Pay
+    </button>
+  </div>
+
+  <!-- RESULTS (Hidden by default) -->
+  <div id="results" class="bg-white p-8 rounded-2xl shadow-xl mt-10 w-full max-w-md hidden">
+    <h2 class="text-2xl font-bold text-green-700 mb-4">🎉 Here’s your take-home pay estimate</h2>
+
+    <div class="space-y-2 text-gray-800">
+      <div>✅ Estimated Federal Tax: <span id="fedTax"></span></div>
+      <div>✅ Estimated State Tax (<span id="stateName"></span>): <span id="stateTax"></span></div>
+      <div>✅ Self-Employment Tax (15.3%): <span id="seTax"></span></div>
+      <div class="font-bold border-t pt-2 mt-2">✅ Total Tax: <span id="totalTax"></span></div>
+      <div class="text-3xl font-extrabold text-green-600 mt-4">💰 NET TAKE-HOME: <span id="netPay"></span></div>
+    </div>
+
+    <p class="mt-4 text-gray-600 italic">“This is what you can safely transfer to your personal account this month.”</p>
+
+    <div class="mt-6 flex gap-3">
+      <button class="bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded">📥 Download as PDF</button>
+      <button class="bg-blue-100 hover:bg-blue-200 px-4 py-2 rounded">✉️ Email to Myself</button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="text-center mt-12 text-gray-500 max-w-md">
+    <p>📌 Save this link for next month!</p>
+    <p>🔒 No data is saved or sent to servers — 100% private.</p>
+    <div class="mt-4">
+      <input type="email" placeholder="Get notified when we launch Cash Flow Checker" class="p-2 border border-gray-300 rounded-l">
+      <button class="bg-blue-600 text-white px-4 py-2 rounded-r">Notify Me</button>
+    </div>
+    <p class="mt-6 text-sm">⭐ Built for freelancers & small biz owners who just want clarity.</p>
+  </div>
+
+  <script>
+    // Simple tax rates (you can expand later)
+    const stateTaxRates = {
+      CA: 0.093, TX: 0, NY: 0.0882, FL: 0, WA: 0, NV: 0, other: 0
+    };
+
+    const federalTaxRate = 0.22; // Simplified average for $40K–$80K
+
+    function calculateTakeHome() {
+      const income = parseFloat(document.getElementById('income').value) || 0;
+      const expenses = parseFloat(document.getElementById('expenses').value) || 0;
+      const state = document.getElementById('state').value;
+      const businessType = document.getElementById('businessType').value;
+
+      const netProfit = income - expenses;
+      if (netProfit <= 0) {
+        alert("No profit this month — don’t pay yourself from business funds!");
+        return;
+      }
+
+      // Calculate taxes
+      let fedTax = netProfit * federalTaxRate;
+      let stateTax = netProfit * (stateTaxRates[state] || 0);
+      let seTax = 0;
+
+      if (businessType !== 'scorp') {
+        seTax = netProfit * 0.153; // Self-employment tax
+      }
+
+      const totalTax = fedTax + stateTax + seTax;
+      const takeHome = netProfit - totalTax;
+
+      // Display results
+      document.getElementById('fedTax').textContent = '$' + fedTax.toFixed(0);
+      document.getElementById('stateTax').textContent = '$' + stateTax.toFixed(0);
+      document.getElementById('stateName').textContent = state;
+      document.getElementById('seTax').textContent = '$' + seTax.toFixed(0);
+      document.getElementById('totalTax').textContent = '$' + totalTax.toFixed(0);
+      document.getElementById('netPay').textContent = '$' + Math.max(0, takeHome).toFixed(0);
+
+      // Show results section
+      document.getElementById('calculator').classList.add('hidden');
+      document.getElementById('results').classList.remove('hidden');
+    }
+  </script>
+
+</body>
+</html>
