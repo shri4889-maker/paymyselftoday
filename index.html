@@ -30,191 +30,92 @@
 
     <!-- Business Type -->
     <div class="mb-4">
-     <label class="block text-gray-700 font-medium mb-2">4. Your Country (Freelancer)</label>
-<select id="country" class="w-full p-3 border border-gray-300 rounded-lg">
-  <option value="IN">India 🇮🇳</option>
-  <option value="US">United States</option>
-  <option value="CA">Canada</option>
-  <option value="GB">United Kingdom</option>
-  <option value="AU">Australia</option>
-  <option value="OTHER">Other</option>
-</select>
+      <label class="block text-gray-700 font-medium mb-2">1. Your business type:</label>
+      <select id="businessType" class="w-full p-3 border border-gray-300 rounded-lg">
+        <option value="soleprop">Sole Proprietor / Freelancer</option>
+        <option value="llc">Single-Member LLC</option>
+        <option value="scorp">S-Corp (Owner Salary)</option>
+        <option value="notsure">I’m not sure (default: Sole Prop)</option>
+      </select>
+    </div>
 
-    <!-- Income -->
+    <!--Client Country -->
     <div class="mb-4">
-      <label class="block text-gray-700 font-medium mb-2">2. Business Income This Month ($)</label>
-      <input type="number" id="income" placeholder="e.g. 5000" class="w-full p-3 border border-gray-300 rounded-lg">
+      <label class="block text-gray-700 font-medium mb-2">2. Where is your client based?</label>
+      <select id="clientCountry" class="w-full p-3 border border-gray-300 rounded-lg">
+        <option value="US">🇺🇸 United States (USD)</option>
+        <option value="CA">🇨🇦 Canada (CAD)</option>
+        <option value="GB">🇬🇧 United Kingdom (GBP)</option>
+        <option value="AU">🇦🇺 Australia (AUD)</option>
+        <option value="EU">🇪🇺 European Union (EUR)</option>
+        <option value="IN">🇮🇳 India (₹)</option>
+        <option value="OTHER">Other</option>
+      </select>
+    </div>
+
+    <!-- Income Currency + Amount -->
+    <div class="mb-4">
+      <label class="block text-gray-700 font-medium mb-2">3. How much did you earn this month? (in client's currency)</label>
+      <div class="flex gap-2">
+        <select id="incomeCurrency" class="p-3 border border-gray-300 rounded-lg" style="width: 100px;">
+          <option value="USD">$ USD</option>
+          <option value="CAD">C$ CAD</option>
+          <option value="GBP">£ GBP</option>
+          <option value="EUR">€ EUR</option>
+          <option value="AUD">A$ AUD</option>
+          <option value="INR">₹ INR</option>
+        </select>
+        <input type="number" id="income" placeholder="e.g. 1000" class="flex-1 p-3 border border-gray-300 rounded-lg">
+      </div>
     </div>
 
     <!-- Expenses -->
     <div class="mb-4">
-      <label class="block text-gray-700 font-medium mb-2">3. Business Expenses This Month ($)</label>
+      <label class="block text-gray-700 font-medium mb-2">4. Business Expenses This Month ($)</label>
       <input type="number" id="expenses" placeholder="e.g. 1200" class="w-full p-3 border border-gray-300 rounded-lg">
     </div>
 
-      
-  <!-- CLIENT COUNTRY -->
-<div class="mb-4">
-  <label class="block text-gray-700 font-medium mb-2">2. Where is your client based?</label>
-  <select id="clientCountry" class="w-full p-3 border border-gray-300 rounded-lg">
-    <option value="US">🇺🇸 United States (USD)</option>
-    <option value="CA">🇨🇦 Canada (CAD)</option>
-    <option value="GB">🇬🇧 United Kingdom (GBP)</option>
-    <option value="AU">🇦🇺 Australia (AUD)</option>
-    <option value="EU">🇪🇺 European Union (EUR)</option>
-    <option value="IN">🇮🇳 India (₹)</option>
-    <option value="OTHER">Other</option>
-  </select>
-</div>
-
-<!-- INCOME CURRENCY + AMOUNT -->
-<div class="mb-4">
-  <label class="block text-gray-700 font-medium mb-2">3. How much did you earn this month? (in client's currency)</label>
-  <div class="flex gap-2">
-    <select id="incomeCurrency" class="p-3 border border-gray-300 rounded-lg" style="width: 100px;">
-      <option value="USD">$ USD</option>
-      <option value="CAD">C$ CAD</option>
-      <option value="GBP">£ GBP</option>
-      <option value="EUR">€ EUR</option>
-      <option value="AUD">A$ AUD</option>
-      <option value="INR">₹ INR</option>
-    </select>
-    <input type="number" id="income" placeholder="e.g. 1000" class="flex-1 p-3 border border-gray-300 rounded-lg">
-  </div>
-</div>
+    <!-- Your Country -->
+    <div class="mb-4">
+      <label class="block text-gray-700 font-medium mb-2">5. Your Country (Freelancer)</label>
+      <select id="country" class="w-full p-3 border border-gray-300 rounded-lg">
+        <option value="IN">India 🇮🇳</option>
+        <option value="US">United States</option>
+        <option value="CA">Canada</option>
+        <option value="GB">United Kingdom</option>
+        <option value="AU">Australia</option>
+        <option value="OTHER">Other</option>
+      </select>
+    </div>
 
     <!-- BUTTON -->
-    function calculateTakeHome() {
-  // Get values
-  const incomeForeign = parseFloat(document.getElementById('income').value) || 0;
-  const expenses = parseFloat(document.getElementById('expenses').value) || 0;
-  const incomeCurrency = document.getElementById('incomeCurrency').value;
-  const clientCountry = document.getElementById('clientCountry').value;
-  const yourCountry = document.getElementById('country').value; // e.g., "IN"
-  const businessType = document.getElementById('businessType').value;
+    <button onclick="calculateTakeHome()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-lg glow-button transition-all">
+      🔥 Calculate My Take-Home Pay
+    </button>
+  </div>
 
-  // Convert income to INR
-  const rate = exchangeRates[incomeCurrency] || 1;
-  const incomeINR = incomeForeign * rate;
-
-  // Convert expenses to INR (assume expenses in same currency as income — or add toggle later)
-  const expensesINR = expenses * rate;
-
-  const netProfitINR = incomeINR - expensesINR;
-  if (netProfitINR <= 0) {
-    alert("No profit this month — don’t pay yourself from business funds!");
-    return;
-  }
-
-  let incomeTaxINR = 0;
-  let gstINR = 0;
-  let tdsINR = 0;
-
-  // INDIA-SPECIFIC LOGIC
-  if (yourCountry === "IN") {
-    // GST: Applies if registered AND client is outside India (export of service)
-    // Rule: If client is outside India → GST is 0% (but you must be registered to claim)
-    // Simplified: If GST registered + foreign client → no GST charged, but you can claim ITC
-    // For simplicity, we assume no GST output — but user may have paid GST on expenses
-    // So we skip GST calculation on income — but mention in disclaimer
-
-    // Income Tax (same as before)
-    if (netProfitINR <= 300000) incomeTaxINR = 0;
-    else if (netProfitINR <= 600000) incomeTaxINR = (netProfitINR - 300000) * 0.05;
-    else if (netProfitINR <= 900000) incomeTaxINR = 15000 + (netProfitINR - 600000) * 0.10;
-    else if (netProfitINR <= 1200000) incomeTaxINR = 45000 + (netProfitINR - 900000) * 0.15;
-    else if (netProfitINR <= 1500000) incomeTaxINR = 90000 + (netProfitINR - 1200000) * 0.20;
-    else incomeTaxINR = 150000 + (netProfitINR - 1500000) * 0.30;
-
-    // TDS (if client is in India → 10% TDS may apply)
-    // If client is foreign → usually no TDS (unless they have Indian presence)
-    // Simplified: Only apply TDS if clientCountry === "IN"
-    if (clientCountry === "IN") {
-      tdsINR = incomeINR * 0.10;
-    }
-
-    // Show disclaimer for Indian users
-    const disclaimer = document.getElementById('disclaimer');
-    disclaimer.innerHTML = `
-      💡 <strong>For Indian Freelancers:</strong> 
-      - Income converted at 1 ${incomeCurrency} = ₹${rate.toFixed(2)}<br>
-      - GST not charged on foreign clients (0% under export of services)<br>
-      - TDS (10%) applied only if client is in India<br>
-      - Tax calculated under New Regime (FY 2025-26). Consult CA.
-    `;
-    disclaimer.classList.remove('hidden');
-  }
-
-  // FOR OTHER COUNTRIES (keep existing logic)
-  else {
-    const countryTaxRates = {
-      US: { income: 0.22, social: 0.153 },
-      CA: { income: 0.15, social: 0.12 },
-      GB: { income: 0.20, social: 0.12 },
-      AU: { income: 0.325, social: 0 },
-      OTHER: { income: 0.20, social: 0.10 }
-    };
-    const rates = countryTaxRates[yourCountry] || countryTaxRates.OTHER;
-    incomeTaxINR = netProfitINR * rates.income;
-    const socialTax = netProfitINR * rates.social;
-    incomeTaxINR += socialTax;
-  }
-
-  const totalTaxINR = incomeTaxINR + tdsINR;
-  const takeHomeINR = netProfitINR - totalTaxINR;
-
-  // DISPLAY RESULTS (always in ₹ for Indian users)
-  const symbol = yourCountry === "IN" ? "₹" : "$";
-  document.getElementById('fedTax').textContent = symbol + incomeTaxINR.toFixed(0);
-  document.getElementById('seTax').textContent = symbol + tdsINR.toFixed(0); // Show TDS here
-  document.getElementById('totalTax').textContent = symbol + totalTaxINR.toFixed(0);
-  document.getElementById('netPay').textContent = symbol + Math.max(0, takeHomeINR).toFixed(0);
-  document.getElementById('stateName').textContent = yourCountry;
-
-  // Also show original currency take-home (optional)
-  const takeHomeOriginal = takeHomeINR / rate;
-  document.getElementById('originalCurrencyNote').innerHTML = 
-    yourCountry === "IN" ? 
-    `(~ ${incomeCurrency} ${takeHomeOriginal.toFixed(2)} in original currency)` : "";
-
-  // Show results
-  document.getElementById('calculator').classList.add('hidden');
-  document.getElementById('results').classList.remove('hidden');
-}
-
-  <!-- RESULTS (Hidden by default) -->
+  <!-- RESULTS -->
   <div id="results" class="bg-white p-8 rounded-2xl shadow-xl mt-10 w-full max-w-md hidden">
     <h2 class="text-2xl font-bold text-green-700 mb-4">🎉 Here’s your take-home pay estimate</h2>
-     <p id="disclaimer" class="text-xs text-gray-500 mt-4 hidden"></p>
 
     <div class="space-y-2 text-gray-800">
-      <div>✅ Estimated Federal Tax: <span id="fedTax"></span></div>
-      <div>✅ Estimated State Tax (<span id="stateName"></span>): <span id="stateTax"></span></div>
-      <div>✅ Self-Employment Tax (15.3%): <span id="seTax"></span></div>
+      <div>✅Estimated Income Tax: <span id="fedTax"></span></div>
+      <div>✅Estimated TDS: <span id="seTax"></span></div>
       <div class="font-bold border-t pt-2 mt-2">✅ Total Tax: <span id="totalTax"></span></div>
-     <div class="text-3xl font-extrabold text-green-600 mt-4">
-  💰 NET TAKE-HOME: <span id="netPay"></span> <span id="originalCurrencyNote" class="text-lg font-normal"></span>
-</div>
- 
+      <div class="text-3xl fontextrabold text-green-600 mt-4">
+        💰 NET TAKE-HOME: <span id="netPay"></span> <span id="originalCurrencyNote" class="text-lg font-normal"></span>
+      </div>
+    </div>
 
     <p class="mt-4 text-gray-600 italic">“This is what you can safely transfer to your personal account this month.”</p>
+
+    <p id="disclaimer" class="text-xs text-gray-500 mt-4 hidden"></p>
 
     <div class="mt-6 flex gap-3">
       <button class="bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded">📥 Download as PDF</button>
       <button class="bg-blue-100 hover:bg-blue-200 px-4 py-2 rounded">✉️ Email to Myself</button>
-      <div id="results" class="bg-white p-8 rounded-2xl shadow-xl mt-10 w-full max-w-md hidden">
-  <!-- ... all your result lines ... -->
-
-  <p class="mt-4 text-gray-600 italic">“This is what you can safely transfer to your personal account this month.”</p>
-
-  <!-- 👇 ADD DISCLAIMER HERE -->
-  <p id="disclaimer" class="text-xs text-gray-500 mt-4 hidden"></p>
-
-  <div class="mt-6 flex gap-3">
-    <!-- buttons -->
+    </div>
   </div>
-</div>
-   
 
   <!-- FOOTER -->
   <div class="text-center mt-12 text-gray-500 max-w-md">
@@ -227,139 +128,88 @@
     <p class="mt-6 text-sm">⭐ Built for freelancers & small biz owners who just want clarity.</p>
   </div>
 
+  <!-- SCRIPT -->
   <script>
-    // Simple tax rates (you can expand later)
-    const stateTaxRates = {
-     const exchangeRates = {
-  USD: 83.50,
-  CAD: 61.20,
-  GBP: 106.80,
-  EUR: 91.30,
-  AUD: 55.90,
-  INR: 1.00
-};
-    
-
-    const federalTaxRate = 0.22; // Simplified average for $40K–$80K
+    const exchangeRates = {
+      USD: 83.50,
+      CAD: 61.20,
+      GBP: 106.80,
+      EUR: 91.30,
+      AUD: 55.90,
+      INR: 1.00
+    };
 
     function calculateTakeHome() {
-      const income = parseFloat(document.getElementById('income').value) || 0;
+      // Get values
+      const incomeForeign = parseFloat(document.getElementById('income').value) || 0;
       const expenses = parseFloat(document.getElementById('expenses').value) || 0;
-      const state = document.getElementById('state').value;
+      const incomeCurrency = document.getElementById('incomeCurrency').value;
+      const clientCountry = document.getElementById('clientCountry').value;
+      const yourCountry = document.getElementById('country').value;
       const businessType = document.getElementById('businessType').value;
 
-      const netProfit = income - expenses;
-      if (netProfit <= 0) {
+      // Convert income to INR
+      const rate = exchangeRates[incomeCurrency] || 1;
+      const incomeINR = incomeForeign * rate;
+      const expensesINR = expenses * rate;
+      const netProfitINR = incomeINR - expensesINR;
+
+      if (netProfitINR <= 0) {
         alert("No profit this month — don’t pay yourself from business funds!");
         return;
       }
 
-      // Calculate taxes
-      let fedTax = netProfit * federalTaxRate;
-      let stateTax = netProfit * (stateTaxRates[state] || 0);
-      let seTax = 0;
+      let incomeTaxINR = 0;
+      let gstINR = 0;
+      let tdsINR = 0;
 
-      if (businessType !== 'scorp') {
-        seTax = netProfit * 0.153; // Self-employment tax
+      // INDIA-SPECIFIC LOGIC
+      if (yourCountry === "IN") {
+        // Income Tax (New Regime)
+        if (netProfitINR <= 300000) incomeTaxINR = 0;
+        else if (netProfitINR <= 600000) incomeTaxINR = (netProfitINR - 300000) * 0.05;
+        else if (netProfitINR <= 900000) incomeTaxINR = 15000 + (netProfitINR - 600000) * 0.10;
+        else if (netProfitINR <= 1200000) incomeTaxINR = 45000 + (netProfitINR - 900000) * 0.15;
+        else if (netProfitINR <= 1500000) incomeTaxINR = 90000 + (netProfitINR - 1200000) * 0.20;
+        else incomeTaxINR = 150000 + (netProfitINR - 1500000) * 0.30;
+
+        // TDS: Only if client is in India
+        if (clientCountry === "IN") {
+          tdsINR = incomeINR * 0.10;
+        }
       }
 
-      const totalTax = fedTax + stateTax + seTax;
-      const takeHome = netProfit - totalTax;
+      const totalTaxINR = incomeTaxINR + tdsINR;
+      const takeHomeINR = netProfitINR - totalTaxINR;
 
       // Display results
-      document.getElementById('fedTax').textContent = '$' + fedTax.toFixed(0);
-      document.getElementById('stateTax').textContent = '$' + stateTax.toFixed(0);
-      document.getElementById('stateName').textContent = state;
-      document.getElementById('seTax').textContent = '$' + seTax.toFixed(0);
-      document.getElementById('totalTax').textContent = '$' + totalTax.toFixed(0);
-      document.getElementById('netPay').textContent = '$' + Math.max(0, takeHome).toFixed(0);
+      const symbol = yourCountry === "IN" ? "₹" : "$";
+      document.getElementById('fedTax').textContent = symbol + incomeTaxINR.toFixed(0);
+      document.getElementById('seTax').textContent = symbol +tdsINR.toFixed(0);
+      document.getElementById('totalTax').textContent = symbol +totalTaxINR.toFixed(0);
+      document.getElementById('netPay').textContent = symbol + Math.max(0, takeHomeINR).toFixed(0);
 
-      // Show results section
+      // Show original currency note
+      const takeHomeOriginal =takeHomeINR / rate;
+      document.getElementById('originalCurrencyNote').innerHTML = 
+        yourCountry === "IN" ? 
+        `(~ ${incomeCurrency} ${takeHomeOriginal.toFixed(2)} in original currency)` : "";
+
+      // Disclaimer
+      const disclaimer = document.getElementById('disclaimer');
+      disclaimer.innerHTML = `
+        💡 <strong>For Indian Freelancers:</strong> 
+        - Income converted at 1 ${incomeCurrency} = ₹${rate.toFixed(2)}<br>
+        - GST not charged on foreign clients (0% under export of services)<br>
+        - TDS (10%) applied only if client is in India<br>
+        - Tax calculated under New Regime (FY 2025-26). Consult CA.
+      `;
+      disclaimer.classList.remove('hidden');
+
+      // Show results
       document.getElementById('calculator').classList.add('hidden');
       document.getElementById('results').classList.remove('hidden');
     }
- <script>
-  // YOUR JAVASCRIPT CODE GOES HERE
-</script>
-  const exchangeRates = {
-    USD: 83.50,
-    CAD: 61.20,
-    GBP: 106.80,
-    EUR: 91.30,
-    AUD: 55.90,
-    INR: 1.00
-  };
-
-  function calculateTakeHome() {
-    // Get values
-    const incomeForeign = parseFloat(document.getElementById('income').value) || 0;
-    const expenses = parseFloat(document.getElementById('expenses').value) || 0;
-    const incomeCurrency = document.getElementById('incomeCurrency').value;
-    const clientCountry = document.getElementById('clientCountry').value;
-    const yourCountry = document.getElementById('country').value;
-    const businessType = document.getElementById('businessType').value;
-
-    // Convert income to INR
-    const rate = exchangeRates[incomeCurrency] || 1;
-    const incomeINR = incomeForeign * rate;
-    const expensesINR = expenses * rate; // Assume same currency
-    const netProfitINR = incomeINR - expensesINR;
-
-    if (netProfitINR <= 0) {
-      alert("No profit this month — don’t pay yourself from business funds!");
-      return;
-    }
-
-    let incomeTaxINR = 0;
-    let gstINR = 0;
-    let tdsINR = 0;
-
-    // INDIA-SPECIFIC LOGIC
-    if (yourCountry === "IN") {
-      // Income Tax (New Regime)
-      if (netProfitINR <= 300000) incomeTaxINR = 0;
-      else if (netProfitINR <= 600000) incomeTaxINR = (netProfitINR - 300000) * 0.05;
-      else if (netProfitINR <= 900000) incomeTaxINR = 15000 + (netProfitINR - 600000) * 0.10;
-      else if (netProfitINR <= 1200000) incomeTaxINR = 45000 + (netProfitINR - 900000) * 0.15;
-      else if (netProfitINR <= 1500000) incomeTaxINR = 90000 + (netProfitINR - 1200000) * 0.20;
-      else incomeTaxINR = 150000 + (netProfitINR - 1500000) * 0.30;
-
-      // TDS: Only if client is in India
-      if (clientCountry === "IN") {
-        tdsINR = incomeINR * 0.10;
-      }
-    }
-
-    const totalTaxINR = incomeTaxINR + tdsINR;
-    const takeHomeINR = netProfitINR - totalTaxINR;
-
-    // Display results
-    const symbol = yourCountry === "IN" ? "₹" : "$";
-    document.getElementById('fedTax').textContent = symbol + incomeTaxINR.toFixed(0);
-    document.getElementById('seTax').textContent = symbol + tdsINR.toFixed(0);
-    document.getElementById('totalTax').textContent = symbol + totalTaxINR.toFixed(0);
-    document.getElementById('netPay').textContent = symbol + Math.max(0, takeHomeINR).toFixed(0);
-    document.getElementById('stateName').textContent = yourCountry;
-
-    // Show original currency note
-    const takeHomeOriginal = takeHomeINR / rate;
-    document.getElementById('originalCurrencyNote').innerHTML = 
-      yourCountry === "IN" ? 
-      `(~ ${incomeCurrency} ${takeHomeOriginal.toFixed(2)} in original currency)` : "";
-
-    // Show results
-    document.getElementById('calculator').classList.add('hidden');
-    document.getElementById('results').classList.remove('hidden');
-
-    // Disclaimer
-    const disclaimer = document.getElementById('disclaimer');
-    disclaimer.innerHTML = `
-      💡 <strong>For Indian Freelancers:</strong> 
-      - Income converted at 1 ${incomeCurrency} = ₹${rate.toFixed(2)}<br>
-      - GST not charged on foreign clients (0% under export of services)<br>
-      - TDS (10%) applied only if client is in India<br>
-      - Tax calculated under New Regime (FY 2025-26). Consult CA.
-    `;
-    disclaimer.classList.remove('hidden');
-  }
-</script>
+  </script>
+</body>
+</html>
