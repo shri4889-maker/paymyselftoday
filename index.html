@@ -26,9 +26,67 @@
     <p class="text-lg text-gray-600 mt-2">How much can you <em>really</em> pay yourself this month?<br>Find out in 10 seconds — no login.</p>
   </div>
 
+  
+  <!-- TAB NAVIGATION -->
+<div class="flex gap-2 mb-4">
+  <button onclick="showTab('calculator')" class="bg-blue-600 text-white px-4 py-2 rounded-lg">📊 Take-Home Pay</button>
+  <button onclick="showTab('clients')" class="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded-lg">👥 Clients</button>
+  <button onclick="showTab('payments')" class="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded-lg">💰 Payments</button>
+</div>
   <!-- CALCULATOR -->
-  <div id="calculator" class="bg-white p-8 rounded-2xl shadow-xl mt-10 w-full max-w-md">
+  <div id="calculator" class="tab bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
     <h2 class="text-xl font-bold mb-4 text-gray-800">Let’s calculate your take-home pay</h2>
+    </div>
+
+<!-- CLIENTS TAB -->
+<div id="clients" class="tab hidden bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
+  <h3 class="text-xl font-bold mb-4">👥Client Tracker</h3>
+  <div class="mb-4">
+    <input type="text" id="clientName" placeholder="Client Name" class="p-2 border rounded w-full mb-2">
+    <input type="email" id="clientEmail" placeholder="Email" class="p-2 border rounded w-full mb-2">
+    <select id="clientCountry" class="p-2 border rounded w-full mb-2">
+      <option value="US">🇺🇸 United States</option>
+      <option value="IN">🇮🇳India</option>
+      <option value="CA">🇨🇦Canada</option>
+      <option value="GB">🇬🇧 United Kingdom</option>
+    </select>
+    <input type="text" id="clientProject" placeholder="Project Name" class="p-2 border rounded w-full mb-2">
+    <input type="date" id="clientDeadline" class="p-2 border rounded w-full mb-2">
+    <select id="clientStatus" class="p-2 border rounded w-full mb-4">
+      <option value="Active">Active</option>
+      <option value="Completed">Completed</option>
+      <option value="On Hold">On Hold</option>
+    </select>
+    <button onclick="addClient()" class="bg-blue-600 text-white px-4 py-2 rounded">➕ Add Client</button>
+  </div>
+
+  <h4 class="font-bold mb-2">Your Clients</h4>
+  <div id="clientsList" class="space-y-2"></div>
+</div>
+
+  <!-- PAYMENTS TAB -->
+<div id="payments" class="tab hidden bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
+  <h3 class="text-xl font-bold mb-4">💰 Payments Tracker</h3>
+  <div class="mb-4">
+    <input type="text" id="paymentClient" placeholder="Client Name" class="p-2 border rounded w-full mb-2">
+    <input type="number" id="paymentAmount" placeholder="Amount" class="p-2 border rounded w-full mb-2">
+    <select id="paymentCurrency" class="p-2 border rounded w-full mb-2">
+      <option value="USD">$ USD</option>
+      <option value="INR">₹ INR</option>
+      <option value="EUR">€ EUR</option>
+    </select>
+    <input type="date" id="paymentDueDate" class="p-2 border rounded w-full mb-2">
+    <select id="paymentStatus" class="p-2 border rounded w-full mb-2">
+      <option value="Pending">Pending</option>
+      <option value="Paid">Paid</option>
+    </select>
+    <input type="text" id="paymentNotes" placeholder="Notes (e.g. Invoice #123)" class="p-2 border rounded w-full mb-2">
+    <button onclick="addPayment()" class="bg-blue-600 text-white px-4 py-2 rounded">➕ Add Payment</button>
+  </div>
+
+  <h4 class="font-bold mb-2">Your Payments</h4>
+  <div id="paymentsList" class="space-y-2"></div>
+</div>
 
     <!-- Business Type -->
     <div class="mb-4">
@@ -254,3 +312,73 @@
     document.getElementById('results').classList.remove('hidden');
   }
 </script>
+
+  // SHOW TAB FUNCTION
+function showTab(tabName) {
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.classList.add('hidden');
+  });
+  document.getElementById(tabName).classList.remove('hidden');
+}
+
+//ADD CLIENT FUNCTION
+function addClient() {
+  const name = document.getElementById('clientName').value;
+  const email = document.getElementById('clientEmail').value;
+  const country = document.getElementById('clientCountry').value;
+  const project = document.getElementById('clientProject').value;
+  const deadline = document.getElementById('clientDeadline').value;
+  const status = document.getElementById('clientStatus').value;
+
+  if (!name) return alert("Please enter client name");
+
+  const client = {name, email, country, project, deadline, status };
+  let stakeholders = JSON.parse(localStorage.getItem('clients') || '[]');
+  stakeholders.push(client);
+  localStorage.setItem('clients', JSON.stringify(clients));
+
+  displayClients();
+  clearClientForm();
+}
+
+//DISPLAY CLIENTS
+function displayClients() {
+  const list = document.getElementById('clientsList');
+  const stakeholders = JSON.parse(localStorage.getItem('clients') || '[]');
+  list.innerHTML = '';
+
+  stakeholders.forEach((client, index) => {
+    const div = document.createElement('div');
+    div.className = "p-3borderroundedbg-gray-50";
+    div.innerHTML = `
+      <strong>${client.name}</strong> (${client.country})<br>
+      ${client.email} | ${client.project}<br>
+      Deadline: ${client.deadline} |Status: ${client.status}<br>
+      <buttononclick="deleteClient(${index})" class="text-red-500 text-sm">🗑️Delete</button>
+    `;
+    list.appendChild(div);
+  });
+}
+
+//CLEAR CLIENT FORM
+function clearClientForm() {
+  document.getElementById('clientName').value = '';
+  document.getElementById('clientEmail').value = '';
+  document.getElementById('clientCountry').value = 'US';
+  document.getElementById('clientProject').value = '';
+  document.getElementById('clientDeadline').value = '';
+  document.getElementById('clientStatus').value = 'Active';
+}
+
+//DELETE CLIENT
+function deleteClient(index) {
+  let stakeholders = JSON.parse(localStorage.getItem('clients') || '[]');
+  stakeholders.splice(index, 1);
+  localStorage.setItem('clients', JSON.stringify(clients));
+  displayClients();
+}
+// LOAD DATA ON PAGE LOAD
+window.addEventListener('DOMContentLoaded', () => {
+  displayClients();
+  displayPayments();
+});
