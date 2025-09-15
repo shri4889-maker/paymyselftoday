@@ -15,6 +15,7 @@
       transform: scale(1.02);
     }
   </style>
+</head>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen flex flex-col items-center p-4">
@@ -98,7 +99,7 @@
   <!-- RESULTS -->
   <div id="results" class="bg-white p-8 rounded-2xl shadow-xl mt-10 w-full max-w-md hidden">
     <div id="pdf-content"> 
-    <h2 class="text-2xl font-bold text-green-700 mb-4">🎉 Here’s your take-home pay estimate</h2>
+      <h2 class="text-2xl font-bold text-green-700 mb-4">🎉 Here’s your take-home pay estimate</h2>
 
     <div class="space-y-2 text-gray-800">
       <div>✅Estimated Income Tax: <span id="fedTax"></span></div>
@@ -178,6 +179,7 @@ function emailResults() {
 
   window.location.href = `mailto:?subject=${subject}&body=${body}`;
 }
+      </script>
       // Get values
       const incomeForeign = parseFloat(document.getElementById('income').value) || 0;
       const expenses = parseFloat(document.getElementById('expenses').value) || 0;
