@@ -112,10 +112,11 @@
     <p class="mt-4 text-gray-600 italic">“This is what you can safely transfer to your personal account this month.”</p>
 
     <p id="disclaimer" class="text-xs text-gray-500 mt-4 hidden"></p>
-
+</div>
+    
     <div class="mt-6 flex gap-3">
-      <button class="bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded">📥 Download as PDF</button>
-      <button class="bg-blue-100 hover:bg-blue-200 px-4 py-2 rounded">✉️ Email to Myself</button>
+      <button onclick="downloadPDF()" class="bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded">📥 Download as PDF</button>
+      <button onclick="emailResults()" class="bg-blue-100 hover:bg-blue-200 px-4 py-2 rounded">✉️ Email to Myself</button>
     </div>
   </div>
 
@@ -142,6 +143,41 @@
     };
 
     function calculateTakeHome() {
+      function downloadPDF() {
+  const element = document.getElementById('pdf-content');
+  const opt = {
+    margin: 1,
+    filename: 'PayMyselfToday_Calculation.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+  };
+
+  html2pdf().set(opt).from(element).save();
+}
+
+function emailResults() {
+  const income = document.getElementById('income').value;
+  const expenses = document.getElementById('expenses').value;
+  const currency = document.getElementById('incomeCurrency').value;
+  const clientCountry = document.getElementById('clientCountry').value;
+  const yourCountry = document.getElementById('country').value;
+  const netPay = document.getElementById('netPay').textContent;
+  const originalNote = document.getElementById('originalCurrencyNote').textContent;
+
+  const subject = encodeURIComponent("My Take-Home Pay Calculation");
+  const body = encodeURIComponent(
+    `PayMyselfToday.com Calculation\n\n` +
+    `Income: ${income} ${currency}\n` +
+    `Expenses: ${expenses} ${currency}\n` +
+    `Client Country: ${clientCountry}\n` +
+    `Your Country: ${yourCountry}\n` +
+    `Net Take-Home: ${netPay} ${originalNote}\n\n` +
+    `Generated at: https://yourusername.github.io/paymyselftoday`
+  );
+
+  window.location.href = `mailto:?subject=${subject}&body=${body}`;
+}
       // Get values
       const incomeForeign = parseFloat(document.getElementById('income').value) || 0;
       const expenses = parseFloat(document.getElementById('expenses').value) || 0;
