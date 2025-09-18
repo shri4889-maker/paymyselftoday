@@ -25,78 +25,9 @@
     <p class="text-lg text-gray-600 mt-2">How much can you <em>really</em> pay yourself this month?<br>Find out in 10 seconds — no login.</p>
   </div>
 
-  
-  <!-- TAB NAVIGATION -->
-<div class="flex gap-2 mb-4">
-  <button onclick="showTab('calculator')" class="bg-blue-600 text-white px-4 py-2 rounded-lg">📊 Take-Home Pay</button>
-  <button onclick="showTab('clients')" class="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded-lg">👥 Clients</button>
-  <button onclick="showTab('payments')" class="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded-lg">💰 Payments</button>
-</div>
   <!-- CALCULATOR -->
-  <div id="calculator" class="tab" bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
+  <div id="calculator" class="bg-white p-8 rounded-2xl shadow-xl mt-10 w-full max-w-md">
     <h2 class="text-xl font-bold mb-4 text-gray-800">Let’s calculate your take-home pay</h2>
-  </div>
-
-  <!-- Business Type -->
-  <div class="mb-4">
-    <label class="block text-gray-700 font-medium mb-2">1. Your business type:</label>
-    <select id="businessType" class="w-full p-3 border border-gray-300 rounded-lg">
-      <option value="soleprop">Sole Proprietor / Freelancer</option>
-      <option value="llc">Single-Member LLC</option>
-      <option value="scorp">S-Corp (Owner Salary)</option>
-      <option value="notsure">I’m not sure (default: Sole Prop)</option>
-    </select>
-  </div>
-
-  <!-- CLIENTS TAB -->
-<div id="clients" class="tab" hidden bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
-  <h3 class="text-xl font-bold mb-4">👥Client Tracker</h3>
-  <div class="mb-4">
-    <input type="text" id="clientName" placeholder="Client Name" class="p-2 border rounded w-full mb-2">
-    <input type="email" id="clientEmail" placeholder="Email" class="p-2 border rounded w-full mb-2">
-    <select id="clientCountry" class="p-2 border rounded w-full mb-2">
-      <option value="US">🇺🇸 United States</option>
-      <option value="IN">🇮🇳India</option>
-      <option value="CA">🇨🇦Canada</option>
-      <option value="GB">🇬🇧 United Kingdom</option>
-    </select>
-    <input type="text" id="clientProject" placeholder="Project Name" class="p-2 border rounded w-full mb-2">
-    <input type="date" id="clientDeadline" class="p-2 border rounded w-full mb-2">
-    <select id="clientStatus" class="p-2 border rounded w-full mb-4">
-      <option value="Active">Active</option>
-      <option value="Completed">Completed</option>
-      <option value="On Hold">On Hold</option>
-    </select>
-    <button onclick="addClient()" class="bg-blue-600 text-white px-4 py-2 rounded">➕ Add Client</button>
-  </div>
-
-  <h4 class="font-bold mb-2">Your Clients</h4>
-  <div id="clientsList" class="space-y-2"></div>
-</div>
-
-  <!-- PAYMENTS TAB -->
-<div id="payments" class="tab" hidden bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
-  <h3 class="text-xl font-bold mb-4">💰 Payments Tracker</h3>
-  <div class="mb-4">
-    <input type="text" id="paymentClient" placeholder="Client Name" class="p-2 border rounded w-full mb-2">
-    <input type="number" id="paymentAmount" placeholder="Amount" class="p-2 border rounded w-full mb-2">
-    <select id="paymentCurrency" class="p-2 border rounded w-full mb-2">
-      <option value="USD">$ USD</option>
-      <option value="INR">₹ INR</option>
-      <option value="EUR">€ EUR</option>
-    </select>
-    <input type="date" id="paymentDueDate" class="p-2 border rounded w-full mb-2">
-    <select id="paymentStatus" class="p-2 border rounded w-full mb-2">
-      <option value="Pending">Pending</option>
-      <option value="Paid">Paid</option>
-    </select>
-    <input type="text" id="paymentNotes" placeholder="Notes (e.g. Invoice #123)" class="p-2 border rounded w-full mb-2">
-    <button onclick="addPayment()" class="bg-blue-600 text-white px-4 py-2 rounded">➕ Add Payment</button>
-  </div>
-
-  <h4 class="font-bold mb-2">Your Payments</h4>
-  <div id="paymentsList" class="space-y-2"></div>
-</div>
 
     <!-- Business Type -->
     <div class="mb-4">
@@ -109,7 +40,7 @@
       </select>
     </div>
 
-    <!--Client Country -->
+    <!-- Client Country -->
     <div class="mb-4">
       <label class="block text-gray-700 font-medium mb-2">2. Where is your client based?</label>
       <select id="clientCountry" class="w-full p-3 border border-gray-300 rounded-lg">
@@ -141,7 +72,7 @@
 
     <!-- Expenses -->
     <div class="mb-4">
-      <label class="block text-gray-700 font-medium mb-2">4. Business Expenses This Month ($)</label>
+      <label class="block text-gray-700 font-medium mb-2">4. Business Expenses This Month</label>
       <input type="number" id="expenses" placeholder="e.g. 1200" class="w-full p-3 border border-gray-300 rounded-lg">
     </div>
 
@@ -166,23 +97,23 @@
 
   <!-- RESULTS -->
   <div id="results" class="bg-white p-8 rounded-2xl shadow-xl mt-10 w-full max-w-md hidden">
-    <div id="pdf-content"> 
+    <div id="pdf-content">
       <h2 class="text-2xl font-bold text-green-700 mb-4">🎉 Here’s your take-home pay estimate</h2>
 
-    <div class="space-y-2 text-gray-800">
-      <div>✅Estimated Income Tax: <span id="fedTax"></span></div>
-      <div>✅Estimated TDS: <span id="seTax"></span></div>
-      <div class="font-bold border-t pt-2 mt-2">✅ Total Tax: <span id="totalTax"></span></div>
-      <div class="text-3xl font-extrabold text-green-600 mt-4">
-        💰 NET TAKE-HOME: <span id="netPay"></span> <span id="originalCurrencyNote" class="text-lg font-normal"></span>
+      <div class="space-y-2 text-gray-800">
+        <div>✅ Estimated Income Tax: <span id="fedTax"></span></div>
+        <div>✅ Estimated TDS: <span id="seTax"></span></div>
+        <div class="font-bold border-t pt-2 mt-2">✅ Total Tax: <span id="totalTax"></span></div>
+        <div class="text-3xl font-extrabold text-green-600 mt-4">
+          💰 NET TAKE-HOME: <span id="netPay"></span> <span id="originalCurrencyNote" class="text-lg font-normal"></span>
+        </div>
       </div>
+
+      <p class="mt-4 text-gray-600 italic">“This is what you can safely transfer to your personal account this month.”</p>
+
+      <p id="disclaimer" class="text-xs text-gray-500 mt-4 hidden"></p>
     </div>
 
-    <p class="mt-4 text-gray-600 italic">“This is what you can safely transfer to your personal account this month.”</p>
-
-    <p id="disclaimer" class="text-xs text-gray-500 mt-4 hidden"></p>
-</div>
-    
     <div class="mt-6 flex gap-3">
       <button onclick="downloadPDF()" class="bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded">📥 Download as PDF</button>
       <button onclick="emailResults()" class="bg-blue-100 hover:bg-blue-200 px-4 py-2 rounded">✉️ Email to Myself</button>
@@ -200,133 +131,125 @@
     <p class="mt-6 text-sm">⭐ Built for freelancers & small biz owners who just want clarity.</p>
   </div>
 
-<!-- SCRIPT -->
-<script>
-  const exchangeRates = {
-    function showTab(tabName) {
-  // Hide all tabs
-  document.querySelectorAll('.tab').forEach(tab => {
-    tab.classList.add('hidden');
-  });
-  // Show selected tab
-  document.getElementById(tabName).classList.remove('hidden');
-}
-    USD: 83.50,
-    CAD: 61.20,
-    GBP: 106.80,
-    EUR: 91.30,
-    AUD: 55.90,
-    INR: 1.00
-  };
-
-  // ✅ DOWNLOAD PDF FUNCTION — HAND AT GLOBAL LEVEL
-  function downloadPDF() {
-    const element = document.getElementById('pdf-content');
-    const opt = {
-      margin: 1,
-      filename: 'PayMyselfToday_Calculation.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: {unit: 'in', format: 'letter',orientation: 'portrait' }
+  <!-- SCRIPT -->
+  <script>
+    const exchangeRates = {
+      USD: 83.50,
+      CAD: 61.20,
+      GBP: 106.80,
+      EUR: 91.30,
+      AUD: 55.90,
+      INR: 1.00
     };
 
-    html2pdf().set(opt).from(element).save();
-  }
+    function calculateTakeHome() {
+      // Get values
+      const incomeForeign = parseFloat(document.getElementById('income').value) || 0;
+      const expenses = parseFloat(document.getElementById('expenses').value) || 0;
+      const incomeCurrency = document.getElementById('incomeCurrency').value;
+      const clientCountry = document.getElementById('clientCountry').value;
+      const yourCountry = document.getElementById('country').value;
+      const businessType = document.getElementById('businessType').value;
 
-  // ✅EMAIL RESULTS FUNCTION — HAND AT GLOBAL LEVEL
-  function emailResults() {
-    const income = document.getElementById('income').value;
-    const expenses = document.getElementById('expenses').value;
-    const currency = document.getElementById('incomeCurrency').value;
-    const clientCountry = document.getElementById('clientCountry').value;
-    const yourCountry = document.getElementById('country').value;
-    const netPay = document.getElementById('netPay').textContent;
-    const originalNote = document.getElementById('originalCurrencyNote').textContent;
+      // Convert income to INR
+      const rate = exchangeRates[incomeCurrency] || 1;
+      const incomeINR = incomeForeign * rate;
+      const expensesINR = expenses * rate;
+      const netProfitINR = incomeINR - expensesINR;
 
-    const subject = encodeURIComponent("My Take-Home Pay Calculation");
-    const body = encodeURIComponent(
-      `PayMyselfToday.com Calculation\n\n` +
-      `Income: ${income} ${currency}\n` +
-      `Expenses: ${expenses} ${currency}\n` +
-      `Client Country: ${clientCountry}\n` +
-      `Your Country: ${yourCountry}\n` +
-      `Net Take-Home: ${netPay} ${originalNote}\n\n` +
-      `Generated at: https://yourusername.github.io/paymyselftoday`
-    );
-
-    window.location.href = `mailto:?subject=${subject}&body=${body}`;
-  }
-
-  // ✅CALCULATE TAKE-HOME FUNCTION — HAND CLEAN
-  function calculateTakeHome() {
-    // Get values
-    const incomeForeign = parseFloat(document.getElementById('income').value) || 0;
-    const expenses = parseFloat(document.getElementById('expenses').value) || 0;
-    const incomeCurrency = document.getElementById('incomeCurrency').value;
-    const clientCountry = document.getElementById('clientCountry').value;
-    const yourCountry = document.getElementById('country').value;
-    const businessType = document.getElementById('businessType').value;
-
-    // Convert income to INR
-    const rate = exchangeRates[incomeCurrency] || 1;
-    const incomeINR = incomeForeign * rate;
-    const expensesINR = expenses * rate;
-    const netProfitINR = incomeINR - expensesINR;
-
-    if (netProfitINR <= 0) {
-      alert("No profit this month — don’t pay yourself from business funds!");
-      return;
-    }
-
-    let incomeTaxINR = 0;
-    let gstINR = 0;
-    let tdsINR = 0;
-
-    // INDIA-SPECIFIC LOGIC
-    if (yourCountry === "IN") {
-      // Income Tax (New Regime)
-      if (netProfitINR <= 300000) incomeTaxINR = 0;
-      else if (netProfitINR <= 600000) incomeTaxINR = (netProfitINR - 300000) * 0.05;
-      else if (netProfitINR <= 900000) incomeTaxINR = 15000 + (netProfitINR - 600000) * 0.10;
-      else if (netProfitINR <= 1200000) incomeTaxINR = 45000 + (netProfitINR - 900000) * 0.15;
-      else if (netProfitINR <= 1500000) incomeTaxINR = 90000 + (netProfitINR - 1200000) * 0.20;
-      else incomeTaxINR = 150000 + (netProfitINR - 1500000) * 0.30;
-
-      // TDS: Only if client is inIndia
-      if (clientCountry === "IN") {
-        tdsINR = incomeINR * 0.10;
+      if (netProfitINR <= 0) {
+        alert("No profit this month — don’t pay yourself from business funds!");
+        return;
       }
+
+      let incomeTaxINR = 0;
+      let tdsINR = 0;
+
+      // INDIA-SPECIFIC LOGIC
+      if (yourCountry === "IN") {
+        // Income Tax (New Regime)
+        if (netProfitINR <= 300000) incomeTaxINR = 0;
+        else if (netProfitINR <= 600000) incomeTaxINR = (netProfitINR - 300000) * 0.05;
+        else if (netProfitINR <= 900000) incomeTaxINR = 15000 + (netProfitINR - 600000) * 0.10;
+        else if (netProfitINR <= 1200000) incomeTaxINR = 45000 + (netProfitINR - 900000) * 0.15;
+        else if (netProfitINR <= 1500000) incomeTaxINR = 90000 + (netProfitINR - 1200000) * 0.20;
+        else incomeTaxINR = 150000 + (netProfitINR - 1500000) * 0.30;
+
+        // TDS: Only if client is in India
+        if (clientCountry === "IN") {
+          tdsINR = incomeINR * 0.10;
+        }
+      }
+
+      const totalTaxINR = incomeTaxINR + tdsINR;
+      const takeHomeINR = netProfitINR - totalTaxINR;
+
+      // Display results
+      const symbol = yourCountry === "IN" ? "₹" : "$";
+      document.getElementById('fedTax').textContent = symbol + incomeTaxINR.toFixed(0);
+      document.getElementById('seTax').textContent = symbol + tdsINR.toFixed(0);
+      document.getElementById('totalTax').textContent = symbol + totalTaxINR.toFixed(0);
+      document.getElementById('netPay').textContent = symbol + Math.max(0, takeHomeINR).toFixed(0);
+
+      // Show original currency note
+      const takeHomeOriginal = takeHomeINR / rate;
+      document.getElementById('originalCurrencyNote').innerHTML = 
+        yourCountry === "IN" ? 
+        `(~ ${incomeCurrency} ${takeHomeOriginal.toFixed(2)} in original currency)` : "";
+
+      // Disclaimer
+      const disclaimer = document.getElementById('disclaimer');
+      disclaimer.innerHTML = `
+        💡 <strong>For Indian Freelancers:</strong> 
+        - Income converted at 1 ${incomeCurrency} = ₹${rate.toFixed(2)}<br>
+        - GST not charged on foreign clients (0% under export of services)<br>
+        - TDS (10%) applied only if client is in India<br>
+        - Tax calculated under New Regime (FY 2025-26). Consult CA.
+      `;
+      disclaimer.classList.remove('hidden');
+
+      // Show results
+      document.getElementById('calculator').classList.add('hidden');
+      document.getElementById('results').classList.remove('hidden');
     }
 
-    const totalTaxINR = incomeTaxINR + tdsINR;
-    const takeHomeINR = netProfitINR - totalTaxINR;
+    // DOWNLOAD PDF FUNCTION
+    function downloadPDF() {
+      const element = document.getElementById('pdf-content');
+      const opt = {
+        margin: 1,
+        filename: 'PayMyselfToday_Calculation.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+      };
 
-    // Display results
-    const symbol = yourCountry === "IN" ? "₹" : "$";
-    document.getElementById('fedTax').textContent = symbol + incomeTaxINR.toFixed(0);
-    document.getElementById('seTax').textContent = symbol + tdsINR.toFixed(0);
-    document.getElementById('totalTax').textContent = symbol + totalTaxINR.toFixed(0);
-    document.getElementById('netPay').textContent = symbol + Math.max(0, takeHomeINR).toFixed(0);
+      html2pdf().set(opt).from(element).save();
+    }
 
-    // Show original currency note
-    const takeHomeOriginal =takeHomeINR /rate;
-    document.getElementById('originalCurrencyNote').innerHTML = 
-      yourCountry === "IN" ? 
-      `(~ ${incomeCurrency} ${takeHomeOriginal.toFixed(2)} in original currency)` : "";
+    // EMAIL RESULTS FUNCTION
+    function emailResults() {
+      const income = document.getElementById('income').value;
+      const expenses = document.getElementById('expenses').value;
+      const currency = document.getElementById('incomeCurrency').value;
+      const clientCountry = document.getElementById('clientCountry').value;
+      const yourCountry = document.getElementById('country').value;
+      const netPay = document.getElementById('netPay').textContent;
+      const originalNote = document.getElementById('originalCurrencyNote').textContent;
 
-    // Disclaimer
-    const disclaimer = document.getElementById('disclaimer');
-    disclaimer.innerHTML = `
-      💡 <strong>For Indian Freelancers:</strong> 
-      - Income converted at 1 ${incomeCurrency} = ₹${rate.toFixed(2)}<br>
-      - GST not charged on foreign clients (0% under Export of services)<br>
-      - TDS (10%) applied only if client is in India<br>
-      - Tax calculated under New Regime (FY 2025-26).Consult CA.
-    `;
-    disclaimer.classList.remove('hidden');
+      const subject = encodeURIComponent("My Take-Home Pay Calculation");
+      const body = encodeURIComponent(
+        `PayMyselfToday.com Calculation\n\n` +
+        `Income: ${income} ${currency}\n` +
+        `Expenses: ${expenses} ${currency}\n` +
+        `Client Country: ${clientCountry}\n` +
+        `Your Country: ${yourCountry}\n` +
+        `Net Take-Home: ${netPay} ${originalNote}\n\n` +
+        `Generated at: https://yourusername.github.io/paymyselftoday`
+      );
 
-    // Show results
-    document.getElementById('calculator').classList.add('hidden');
-    document.getElementById('results').classList.remove('hidden');
-  }
-</script>
+      window.location.href = `mailto:?subject=${subject}&body=${body}`;
+    }
+  </script>
+</body>
+</html>
