@@ -36,9 +36,20 @@
   <!-- CALCULATOR -->
   <div id="calculator" class="tab bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
     <h2 class="text-xl font-bold mb-4 text-gray-800">Let’s calculate your take-home pay</h2>
-    </div>
+  </div>
 
-<!-- CLIENTS TAB -->
+  <!-- Business Type -->
+  <div class="mb-4">
+    <label class="block text-gray-700 font-medium mb-2">1. Your business type:</label>
+    <select id="businessType" class="w-full p-3 border border-gray-300 rounded-lg">
+      <option value="soleprop">Sole Proprietor / Freelancer</option>
+      <option value="llc">Single-Member LLC</option>
+      <option value="scorp">S-Corp (Owner Salary)</option>
+      <option value="notsure">I’m not sure (default: Sole Prop)</option>
+    </select>
+  </div>
+
+  <!-- CLIENTS TAB -->
 <div id="clients" class="tab hidden bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
   <h3 class="text-xl font-bold mb-4">👥Client Tracker</h3>
   <div class="mb-4">
@@ -193,6 +204,14 @@
 <!-- SCRIPT -->
 <script>
   const exchangeRates = {
+    function showTab(tabName) {
+  // Hide all tabs
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.classList.add('hidden');
+  });
+  // Show selected tab
+  document.getElementById(tabName).classList.remove('hidden');
+}
     USD: 83.50,
     CAD: 61.20,
     GBP: 106.80,
